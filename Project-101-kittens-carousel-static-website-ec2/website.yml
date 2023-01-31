@@ -18,9 +18,7 @@ Resources:
           ToPort: 80
           CidrIp: 0.0.0.0/0
  
-   
 
-  
 WebServer:
     Type: AWS::EC2::Instance
     Properties:
@@ -28,12 +26,24 @@ WebServer:
       InstanceType: t2.micro
       KeyName: firstkey
       SecurityGroupIds:
-        - !Ref WebServerSecurityGroup
+        - ! Ref WebServerSecurityGroup
         
       Tags:
         - Key: Name
           Value: WebServer-Selma
-      UserData: String  
-       
-
+      UserData: 
+        Fn::Base64:
+        |
+         #!/bin/bash -x
+          yum update -y
+          yum install httpd -y
+          cd /var/www/html
+          FOLDER="https://raw.githubusercontent.com/CSAAWS/my-repository/main/Project-101-kittens-carousel-static-website-ec2/static-web/"
+          wget ${FOLDER}index.html
+          wget ${FOLDER}cat0.jpg
+          wget ${FOLDER}cat1.jpg
+          wget ${FOLDER}cat2.jpg
+          wget ${FOLDER}cat3.png
+          systemctl start httpd
+          systemctl enable httpd
 
