@@ -19,7 +19,7 @@ Resources:
           CidrIp: 0.0.0.0/0
  
 
-WebServer:
+Webserver:
     Type: AWS::EC2::Instance
     Properties:
       ImageId: ami-0b5eea76982371e91
